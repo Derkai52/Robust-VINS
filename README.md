@@ -1,7 +1,6 @@
 # Robust-VINS
 
-## 目录
-
+## 使用流程
 ```shell
 mkdir -p ws_robust_vins/src
 cd ws_robust_vins/src
