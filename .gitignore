@@ -1,0 +1,6 @@
+.vscode/
+result.txt
+result_global.txt
+result_gps.txt
+*.bag
+camera_models/camera_calib_example/calibrationdata/*
