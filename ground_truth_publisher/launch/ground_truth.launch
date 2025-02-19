@@ -1,5 +1,5 @@
 <launch>
     <node name="ground_truth_publisher" pkg="ground_truth_publisher" type="ground_truth_publisher" output="screen">
-        <param name="ground_truth_file" value="$(find ground_truth_publisher)../config/100_4.txt" />
+        <param name="ground_truth_file" value="$(find ground_truth_publisher)../config/M300/100_4.txt" />
     </node>
 </launch>

@@ -107,7 +107,8 @@ void vio_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)
         printf("vio t: %f, gps t: %f \n", t, gps_t);
         // 10ms sync tolerance
         // 当前时刻前后10ms内
-        if(gps_t >= t - 0.01 && gps_t <= t + 0.01)
+        // TODO(Derkai)：暂时改成110ms
+        if(gps_t >= t - 0.11 && gps_t <= t + 0.11)
         {
             //printf("receive GPS with timestamp %f\n", GPS_msg->header.stamp.toSec());
             // 经纬度、海拔
@@ -119,7 +120,7 @@ void vio_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)
             double pos_accuracy = GPS_msg->position_covariance[0];
             if(pos_accuracy <= 0)
                 pos_accuracy = 1;
-            //printf("receive covariance %lf \n", pos_accuracy);
+            // printf("receive covariance  %lf \n", pos_accuracy);
             //if(GPS_msg->status.status > 8)
                 // 输入当前帧里程计对应时刻的GPS数据
                 globalEstimator.inputGPS(t, latitude, longitude, altitude, pos_accuracy);
@@ -155,7 +156,7 @@ void vio_callback(const nav_msgs::Odometry::ConstPtr &pose_msg)
 
 
     // write result to file
-    std::ofstream foutC("/home/tony-ws1/output/vio_global.csv", ios::app);
+    std::ofstream foutC("/home/emnavi/output/vio_global.csv", ios::app);
     foutC.setf(ios::fixed, ios::floatfield);
     foutC.precision(0);
     foutC << pose_msg->header.stamp.toSec() * 1e9 << ",";
@@ -186,7 +187,7 @@ int main(int argc, char **argv)
     pub_global_path = n.advertise<nav_msgs::Path>("global_path", 100);
     // 发布里程计
     pub_global_odometry = n.advertise<nav_msgs::Odometry>("global_odometry", 100);
-    // 
+    // 发布车模型
     pub_car = n.advertise<visualization_msgs::MarkerArray>("car_model", 1000);
     ros::spin();
     return 0;

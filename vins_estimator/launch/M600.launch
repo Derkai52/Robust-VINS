@@ -5,7 +5,23 @@
 		<remap from="~imu_propagate_pose" to="/mavros/vision_pose/pose"/>
 	</node >
 
+	<!-- 发布真值 -->
 	<include file="$(find vins)../ground_truth_publisher/launch/ground_truth.launch"/>
+
+	<!-- 滤波IMU数据 -->
+	<node name="imu_filter" pkg="imu_filter"  type="imu_filter" output="screen">
+	</node >
+
+	<!-- 融合GNSS -->
 	<node name="global_fusion" pkg="global_fusion"  type="global_fusion_node" output="screen">
 	</node >
+
+	<!-- 融合GNSS后的轨迹平滑优化 -->
+	<node name="global_smooth_fusion" pkg="global_smooth_fusion"  type="global_smooth_fusion" output="screen">
+	</node >
+
+	<include file="$(find foxglove_bridge)/launch/foxglove_bridge.launch">
+			<arg name="port" value="8765"/>
+	</include>
+
 </launch> 

@@ -237,7 +237,7 @@ void Estimator::inputIMU(double t, const Vector3d &linearAcceleration, const Vec
     mBuf.lock();
     accBuf.push(make_pair(t, linearAcceleration));
     gyrBuf.push(make_pair(t, angularVelocity));
-    //printf("input imu with time %f \n", t);
+    // printf("input imu with time %f \n", t);
     mBuf.unlock();
 
     if (solver_flag == NON_LINEAR)
@@ -1122,6 +1122,7 @@ void Estimator::double2vector()
                                                           para_Pose[0][5]).toRotationMatrix());
         // yaw角差量
         double y_diff = origin_R0.x() - origin_R00.x();
+        std::cout << "yaw diff" << y_diff << std::endl;
         // yaw角差量对应旋转矩阵
         Matrix3d rot_diff = Utility::ypr2R(Vector3d(y_diff, 0, 0));
 
@@ -1551,21 +1552,21 @@ void Estimator::optimization()
         for (int i = 1; i <= WINDOW_SIZE; i++)
         {
             addr_shift[reinterpret_cast<long>(para_Pose[i])] = para_Pose[i - 1];
-            printf("cur pose %ld,%ld\n",reinterpret_cast<long>(para_Pose[i]),reinterpret_cast<long>(para_Pose[i-1]));
+            // printf("cur pose %ld,%ld\n",reinterpret_cast<long>(para_Pose[i]),reinterpret_cast<long>(para_Pose[i-1]));
             if(USE_IMU)
             {
                 addr_shift[reinterpret_cast<long>(para_SpeedBias[i])] = para_SpeedBias[i - 1];
-                printf("cur speedBias %ld,%ld\n",reinterpret_cast<long>(para_SpeedBias[i]),reinterpret_cast<long>(para_SpeedBias[i-1]));
+                // printf("cur speedBias %ld,%ld\n",reinterpret_cast<long>(para_SpeedBias[i]),reinterpret_cast<long>(para_SpeedBias[i-1]));
             }
         }
         for (int i = 0; i < NUM_OF_CAM; i++)
         {
             addr_shift[reinterpret_cast<long>(para_Ex_Pose[i])] = para_Ex_Pose[i];
-            printf("cur exPose %ld,%ld\n",reinterpret_cast<long>(para_Ex_Pose[i]),reinterpret_cast<long>(para_Ex_Pose[i]));
+            // printf("cur exPose %ld,%ld\n",reinterpret_cast<long>(para_Ex_Pose[i]),reinterpret_cast<long>(para_Ex_Pose[i]));
         }
 
         addr_shift[reinterpret_cast<long>(para_Td[0])] = para_Td[0];
-        printf("cur td %ld,%ld\n",reinterpret_cast<long>(para_Td[0]),reinterpret_cast<long>(para_Td[0]));
+        // printf("cur td %ld,%ld\n",reinterpret_cast<long>(para_Td[0]),reinterpret_cast<long>(para_Td[0]));
 
         vector<double *> parameter_blocks = marginalization_info->getParameterBlocks(addr_shift);
 

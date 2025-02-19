@@ -368,7 +368,7 @@ bool KeyFrame::findConnection(KeyFrame* old_kf)
 	            cv::circle(loop_match_img, old_pt, 5, cv::Scalar(0, 255, 0));
 	        }
 	        ostringstream path;
-	        path << "/home/tony-ws1/raw_data/loop_image/"
+	        path << "/home/emnavi/raw_data/loop_image/"
 	                << index << "-"
 	                << old_kf->index << "-" << "0raw_point.jpg";
 	        cv::imwrite( path.str().c_str(), loop_match_img);
@@ -416,16 +416,16 @@ bool KeyFrame::findConnection(KeyFrame* old_kf)
 	        }
 
 	        ostringstream path, path1, path2;
-	        path <<  "/home/tony-ws1/raw_data/loop_image/"
+	        path <<  "/home/emnavi/raw_data/loop_image/"
 	                << index << "-"
 	                << old_kf->index << "-" << "1descriptor_match.jpg";
 	        cv::imwrite( path.str().c_str(), loop_match_img);
 	        /*
-	        path1 <<  "/home/tony-ws1/raw_data/loop_image/"
+	        path1 <<  "/home/emnavi/raw_data/loop_image/"
 	                << index << "-"
 	                << old_kf->index << "-" << "1descriptor_match_1.jpg";
 	        cv::imwrite( path1.str().c_str(), image);
-	        path2 <<  "/home/tony-ws1/raw_data/loop_image/"
+	        path2 <<  "/home/emnavi/raw_data/loop_image/"
 	                << index << "-"
 	                << old_kf->index << "-" << "1descriptor_match_2.jpg";
 	        cv::imwrite( path2.str().c_str(), old_img);	        
@@ -472,7 +472,7 @@ bool KeyFrame::findConnection(KeyFrame* old_kf)
 	        }
 
 	        ostringstream path;
-	        path <<  "/home/tony-ws1/raw_data/loop_image/"
+	        path <<  "/home/emnavi/raw_data/loop_image/"
 	                << index << "-"
 	                << old_kf->index << "-" << "2fundamental_match.jpg";
 	        cv::imwrite( path.str().c_str(), loop_match_img);
@@ -534,7 +534,7 @@ bool KeyFrame::findConnection(KeyFrame* old_kf)
 
 	            /*
 	            ostringstream path;
-	            path <<  "/home/tony-ws1/raw_data/loop_image/"
+	            path <<  "/home/emnavi/raw_data/loop_image/"
 	                    << index << "-"
 	                    << old_kf->index << "-" << "3pnp_match.jpg";
 	            cv::imwrite( path.str().c_str(), loop_match_img);

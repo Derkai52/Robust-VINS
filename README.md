@@ -15,7 +15,7 @@ catkin_make
 ## 使用流程
 ```shell
 # 测试bag包
-rosbag play 100_4.bag
+rosbag play src/robust_vins/config/M300/100_4.bag
 roslaunch vins M600.launch
 ```
 
