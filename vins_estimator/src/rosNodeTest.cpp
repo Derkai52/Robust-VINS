@@ -29,8 +29,10 @@ queue<sensor_msgs::ImageConstPtr> img0_buf;
 queue<sensor_msgs::ImageConstPtr> img1_buf;
 std::mutex m_buf;   // 操作缓存队列需要上锁
 
-// Realsense 系列相机必须在开始读取后才开始调整曝光，会影响前后特征点识别，因此扔掉刚开始的 THROW_OUT_MAX_VALUE 张 图片
-#define  THROW_OUT_MAX_VALUE 250
+// TODO(Derkai): Realsense 系列相机必须在开始读取后才开始调整曝光，会影响前后特征点识别，因此跳过扔掉刚开始的 THROW_OUT_MAX_VALUE 张 图片
+#define  THROW_OUT_MAX_VALUE 30
+// M600 示例使用
+// #define  THROW_OUT_MAX_VALUE 250
 static int throw_out_num = 0;
 
 /**
@@ -203,6 +205,7 @@ void feature_callback(const sensor_msgs::PointCloudConstPtr &feature_msg)
         featureFrame[feature_id].emplace_back(camera_id,  xyz_uv_velocity);
     }
     double t = feature_msg->header.stamp.toSec();
+
     estimator.inputFeature(t, featureFrame);
     return;
 }

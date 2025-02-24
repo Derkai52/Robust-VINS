@@ -1,0 +1,19 @@
+<launch>
+	<!-- 启动飞控 -->
+	<include file="$(find mavros)/launch/px4.launch">
+        <arg name="fcu_url" value="/dev/ttyACM0:921600"/>
+        <arg name="gcs_url" value="udp://:14556@10.42.0.173:14550"/>
+    </include>
+
+	<!-- 启动 VINS -->
+	<node name="vins_fusion" pkg="vins"  type="vins_node" output="screen" args="$(find vins)../config/mono_fisheye_hikcamera/config.yaml">
+	</node >
+
+	<!-- 启动可视化 -->
+	<include file="$(find foxglove_bridge)/launch/foxglove_bridge.launch">
+			<arg name="port" value="8765"/>
+	</include>
+
+	<!-- <node name="rvizvisualisation" pkg="rviz" type="rviz" output="log" args="-d $(find vins)/../config/mono_fisheye_hikcamera/fisheye_rviz.rviz" /> -->
+
+</launch> 

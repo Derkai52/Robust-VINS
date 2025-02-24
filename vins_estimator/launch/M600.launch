@@ -1,8 +1,5 @@
 <launch>
-	<include file="$(find vins)/launch/vins_rviz.launch"/>
 	<node name="vins_fusion" pkg="vins"  type="vins_node" output="screen" args="$(find vins)../config/M300/realsense_stereo_imu_config.yaml">
-        <remap from="~imu_propagate" to="/quadrotor_control/odom"/>
-		<remap from="~imu_propagate_pose" to="/mavros/vision_pose/pose"/>
 	</node >
 
 	<!-- 发布真值 -->
@@ -20,8 +17,10 @@
 	<node name="global_smooth_fusion" pkg="global_smooth_fusion"  type="global_smooth_fusion" output="screen">
 	</node >
 
+	<!-- 启动可视化 -->
 	<include file="$(find foxglove_bridge)/launch/foxglove_bridge.launch">
 			<arg name="port" value="8765"/>
 	</include>
+	<node name="rvizvisualisation" pkg="rviz" type="rviz" output="log" args="-d $(find vins)/../config/M300/vins.rviz" />
 
 </launch> 

@@ -124,6 +124,7 @@ double FeatureTracker::distance(cv::Point2f &pt1, cv::Point2f &pt2)
 */
 map<int, vector<pair<int, Eigen::Matrix<double, 7, 1>>>> FeatureTracker::trackImage(double _cur_time, const cv::Mat &_img, const cv::Mat &_img1)
 {
+
     TicToc t_r;
     cur_time = _cur_time;
     cur_img = _img;
@@ -243,6 +244,7 @@ map<int, vector<pair<int, Eigen::Matrix<double, 7, 1>>>> FeatureTracker::trackIm
         //printf("feature cnt after add %d\n", (int)ids.size());
     }
 
+    // TODO(Derkai): 这里添加了鱼眼的畸变矫正的图
     // 由像素点计算得到的归一化相机平面点，带畸变校正
     cur_un_pts = undistortedPts(cur_pts, m_camera[0]);
     // 计算当前帧归一化相机平面特征点在x、y方向上的移动速度
@@ -412,7 +414,7 @@ void FeatureTracker::readIntrinsicParameter(const vector<string> &calib_file)
     for (size_t i = 0; i < calib_file.size(); i++)
     {
         ROS_INFO("reading paramerter of camera %s", calib_file[i].c_str());
-        camodocal::CameraPtr camera = CameraFactory::instance()->generateCameraFromYamlFile(calib_file[i]);
+        camera_model::CameraPtr camera = CameraFactory::instance()->generateCameraFromYamlFile(calib_file[i]);
         m_camera.push_back(camera);
     }
     if (calib_file.size() == 2)
@@ -463,7 +465,7 @@ void FeatureTracker::showUndistortion(const string &name)
 /**
  * 像素点计算归一化相机平面点，带畸变校正
 */
-vector<cv::Point2f> FeatureTracker::undistortedPts(vector<cv::Point2f> &pts, camodocal::CameraPtr cam)
+vector<cv::Point2f> FeatureTracker::undistortedPts(vector<cv::Point2f> &pts, camera_model::CameraPtr cam)
 {
     vector<cv::Point2f> un_pts;
     for (unsigned int i = 0; i < pts.size(); i++)
